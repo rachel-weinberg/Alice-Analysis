@@ -1,7 +1,7 @@
 ---
 title: "Pollinator graphs"
 author: "Weinberg"
-date: "2023-11-30"
+dat01e: "2023-11-30"
 output:
   pdf_document: default
   html_document: default
@@ -23,10 +23,10 @@ if (!require("pacman")) install.packages("pacman")
 
 ```{r}
 #Change the name in quotation marks so that it matches the filename of your datasheet EXACTLY
-dat01<-read_excel("FINAL LAB_Marigolds Real+Artificial+Insect Behavior Data.xlsx")
-dat<-rbind(l2, l3[,-2])
-dat <-cbind(Type=c(rep("Real", nrow(l2)), rep("Artificial", nrow(l3))), dat)
-dat
+dat01<-read_excel("FINAL LAB_Marigolds Real+Artificial+Insect Behavior data.xlsx")
+dat01<-rbind(l2, l3[,-2])
+dat01 <-cbind(Type=c(rep("Real", nrow(l2)), rep("Artificial", nrow(l3))), dat01)
+dat01
 ```
 #Box 2.
 Tables of summary statistics. The tables show (in order)
@@ -40,21 +40,21 @@ Tables of summary statistics. The tables show (in order)
 se=function(x){sd(x)/sqrt(length(x))}
 
 #Behaviors by time of day
-SumStats_behavior_time<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_behavior_time<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_behavior_time
 
 #behaviors by flower type (real or artificial)
-SumStats_behavior_flower<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_behavior_flower<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_behavior_flower
 
 #type of insect by time of day
-SumStats_taxa_time<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa_time<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_taxa_time
 
-SumStats_taxa_flower<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa_flower<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
 SumStats_taxa_flower
 ```
 
@@ -69,12 +69,12 @@ The plots are as follows:
 
 ```{r message=FALSE}
 #summary statistics grouped by time of day and flower type
-SumStats_behavior<-dat01 %>% pivot_longer(colnames(dat[6:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_behavior<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
-SumStats_taxa<-dat01 %>% pivot_longer(colnames(dat[6:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 taxa<-colnames(dat01[6:ncol(dat01)])
-beh_lower_datyime<-SumStats_behavior$Average-SumStats_behavior$SE
+beh_lower_dat01yime<-SumStats_behavior$Average-SumStats_behavior$SE
 beh_upper_daytime<-SumStats_behavior$Average+SumStats_behavior$SE
 
 
