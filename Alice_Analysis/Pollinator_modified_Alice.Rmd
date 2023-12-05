@@ -24,9 +24,7 @@ if (!require("pacman")) install.packages("pacman")
 ```{r}
 #Change the name in quotation marks so that it matches the filename of your datasheet EXACTLY
 dat01<-read_excel("FINAL LAB_Marigolds Real+Artificial+Insect Behavior data.xlsx")
-dat01<-rbind(l2, l3[,-2])
-dat01 <-cbind(Type=c(rep("Real", nrow(l2)), rep("Artificial", nrow(l3))), dat01)
-dat01
+
 ```
 #Box 2.
 Tables of summary statistics. The tables show (in order)
