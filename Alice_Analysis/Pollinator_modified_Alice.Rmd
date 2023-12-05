@@ -23,6 +23,7 @@ if (!require("pacman")) install.packages("pacman")
 
 ```{r}
 #Change the name in quotation marks so that it matches the filename of your datasheet EXACTLY
+setwd("~/Alice-Analysis/Alice_Analysis")
 dat01<-read_excel("FINAL LAB_Marigolds Real+Artificial+Insect Behavior data.xlsx")
 
 ```
