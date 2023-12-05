@@ -38,21 +38,21 @@ Tables of summary statistics. The tables show (in order)
 se=function(x){sd(x)/sqrt(length(x))}
 
 #Behaviors by time of day
-SumStats_behavior_time<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_behavior_time<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_behavior_time
 
 #behaviors by flower type (real or artificial)
-SumStats_behavior_flower<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_behavior_flower<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_behavior_flower
 
 #type of insect by time of day
-SumStats_taxa_time<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa_time<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
 
 SumStats_taxa_time
 
-SumStats_taxa_flower<-dat01 %>% pivot_longer(colnames(dat01[5:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa_flower<-dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
 SumStats_taxa_flower
 ```
 
