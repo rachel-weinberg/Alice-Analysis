@@ -1,0 +1,111 @@
+---
+title: "Pollinator graphs"
+author: "Weinberg"
+date: "2023-11-30"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+#Box 0. Run this whole chunk to load the libraries
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!require("pacman")) install.packages("pacman")
+  pacman::p_load(tidyverse, ggplot2, readxl, RColorBrewer)
+```
+
+# Box 1. Import the data
+
+
+```{r}
+#Change the name in quotation marks so that it matches the filename of your datasheet EXACTLY
+dat01<-read_excel("FINAL LAB_Marigolds Real+Artificial+Insect Behavior Data.xlsx")
+dat<-rbind(l2, l3[,-2])
+dat <-cbind(Type=c(rep("Real", nrow(l2)), rep("Artificial", nrow(l3))), dat)
+dat
+```
+#Box 2.
+Tables of summary statistics. The tables show (in order)
+1. Mean and standard error of the number of observations of each behavior by time
+2. Mean and standard error of the number of observations of each behavior by flower type
+3. Mean and standard error of the number of observations of each insect by time of day
+4. Mean and standard error of the number of observations of each behavior by time of day
+
+
+```{r message=FALSE}
+se=function(x){sd(x)/sqrt(length(x))}
+
+#Behaviors by time of day
+SumStats_behavior_time<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+
+SumStats_behavior_time
+
+#behaviors by flower type (real or artificial)
+SumStats_behavior_flower<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+
+SumStats_behavior_flower
+
+#type of insect by time of day
+SumStats_taxa_time<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+
+SumStats_taxa_time
+
+SumStats_taxa_flower<-dat01 %>% pivot_longer(colnames(dat[5:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+SumStats_taxa_flower
+```
+
+#Box 3. Plots of insects during daytime and nighttime
+The plots are as follows:
+
+1.Behaviors observed by flower (daytime)
+2.Behaviors observed by flower (evening)
+3. Insects observed by flower (daytime)
+4. Insects observed by flower (evening)
+
+
+```{r message=FALSE}
+#summary statistics grouped by time of day and flower type
+SumStats_behavior<-dat01 %>% pivot_longer(colnames(dat[6:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Behavior) %>% summarise(Average=mean(Observations), SE=se(Observations))
+
+SumStats_taxa<-dat01 %>% pivot_longer(colnames(dat[6:ncol(dat)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Time, Insect) %>% summarise(Average=mean(Observations), SE=se(Observations))
+
+taxa<-colnames(dat01[6:ncol(dat01)])
+beh_lower_datyime<-SumStats_behavior$Average-SumStats_behavior$SE
+beh_upper_daytime<-SumStats_behavior$Average+SumStats_behavior$SE
+
+
+
+Daytime_beh<-ggplot(data=dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% filter(Time=="Day") %>% summarise(Average=mean(Observations), SE=se(Observations)), aes(x=Flower, y=Average, fill=Behavior))+
+  geom_col(position="dodge")+
+  labs(title="Average Number of Observed Insect Behaviors by Flower: Daytime", x="Flower Type", y="Average Number of Observations") 
+
+Daytime_beh
+
+
+Evening_beh<-ggplot(data=dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Behavior) %>% filter(Time=="Evening") %>% summarise(Average=mean(Observations), SE=se(Observations)), aes(x=Flower, y=Average, fill=Behavior))+
+  geom_col(position="dodge")+
+  labs(title="Average Number of Observed Insect Behaviors by Flower: Evening", x="Flower Type", y="Average Number of Observations") 
+
+Evening_beh
+
+
+Daytime_insects<-ggplot(data=dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% filter(Time=="Day") %>% summarise(Average=mean(Observations), SE=se(Observations)), aes(x=Flower, y=Average, fill=Insect))+
+  geom_col(position="dodge")+
+  labs(title="Average Number of Observed Insects by Flower: Daytime", x="Flower Type", y="Average Number of Observations") 
+
+Daytime_insects
+
+
+Evening_insects<-ggplot(data=dat01 %>% pivot_longer(colnames(dat01[6:ncol(dat01)]), names_to="Insect", values_to="Observations") %>% group_by(Flower, Insect) %>% filter(Time=="Evening") %>% summarise(Average=mean(Observations), SE=se(Observations)), aes(x=Flower, y=Average, fill=Insect))+
+  geom_col(position="dodge")+
+  labs(title="Average Number of Observed Insects by Flower: Evening", x="Flower Type", y="Average Number of Observations") 
+
+Evening_insects
+```
+
+
+
